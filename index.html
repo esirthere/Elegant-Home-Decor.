@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Home Decor | Affordable & Custom Decor in Kenya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo" onclick="navigateTo('home')">Elegant Home Decor</div>
+        <nav>
+            <button class="nav-btn" onclick="navigateTo('home')">Home</button>
+            <button class="nav-btn" onclick="navigateTo('products')">Products</button>
+            <button class="nav-btn cart-btn" onclick="navigateTo('cart')">
+                Cart (<span id="cart-count">0</span>)
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app-container">
+
+        <!-- 1. HOME VIEW -->
+        <section id="home-view" class="view active">
+            <div class="hero">
+                <h1>Transform Your Space with Affordable Elegance</h1>
+                <p>Curated decorative pillows, wall art, vases, mirrors, and custom pieces delivered right to your doorstep anywhere in Kenya.</p>
+                <button class="primary-btn" onclick="navigateTo('products')">Shop Collection</button>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Custom Preferences</h3>
+                    <p>Tailor colors, sizes, and frames to match your home, Airbnb, or office aesthetic.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Affordable Pricing</h3>
+                    <p>Compare prices easily and get wholesale-inspired rates without leaving your home.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Reliable Kenyan Delivery</h3>
+                    <p>Fast dispatch via rider in Nairobi/Embu and nationwide courier delivery.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PRODUCTS VIEW -->
+        <section id="products-view" class="view">
+            <div class="section-header">
+                <h2>Our Home Decor Collection</h2>
+                <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterProducts('All', this)">All</button>
+                    <button class="filter-btn" onclick="filterProducts('Pillows', this)">Pillows</button>
+                    <button class="filter-btn" onclick="filterProducts('Wall Art', this)">Wall Art</button>
+                    <button class="filter-btn" onclick="filterProducts('Vases & Flowers', this)">Vases & Flowers</button>
+                    <button class="filter-btn" onclick="filterProducts('Mirrors & Table', this)">Mirrors & Table</button>
+                </div>
+            </div>
+            <div id="product-grid" class="product-grid">
+                <!-- Populated dynamically by script.js -->
+            </div>
+        </section>
+
+        <!-- 3. PRODUCT DETAILS VIEW -->
+        <section id="details-view" class="view">
+            <button class="back-btn" onclick="navigateTo('products')">&larr; Back to Products</button>
+            <div id="product-detail-container" class="detail-container">
+                <!-- Populated dynamically by script.js -->
+            </div>
+        </section>
+
+        <!-- 4. CART VIEW -->
+        <section id="cart-view" class="view">
+            <h2>Your Shopping Cart</h2>
+            <div id="cart-items-container">
+                <!-- Populated dynamically by script.js -->
+            </div>
+            <div id="cart-summary" class="cart-summary hidden">
+                <h3>Total: KES <span id="cart-total">0</span></h3>
+                <button class="primary-btn" onclick="navigateTo('checkout')">Proceed to Checkout</button>
+            </div>
+        </section>
+
+        <!-- 5. CHECKOUT / ORDER PROCESS VIEW -->
+        <section id="checkout-view" class="view">
+            <button class="back-btn" onclick="navigateTo('cart')">&larr; Back to Cart</button>
+            <h2>Checkout & Delivery Details</h2>
+            <form id="checkout-form" class="checkout-form" onsubmit="handleOrderSubmit(event)">
+                <div class="form-group">
+                    <label for="cust-name">Full Name</label>
+                    <input type="text" id="cust-name" required placeholder="e.g., Christine Nyambura">
+                </div>
+                <div class="form-group">
+                    <label for="cust-phone">Phone Number (for M-Pesa & Delivery)</label>
+                    <input type="tel" id="cust-phone" required placeholder="e.g., 0712345678">
+                </div>
+                <div class="form-group">
+                    <label for="cust-segment">Customer Type</label>
+                    <select id="cust-segment">
+                        <option value="Homeowner">Homeowner</option>
+                        <option value="Airbnb / Hotel">Airbnb / Hotel Owner</option>
+                        <option value="Student">University Student</option>
+                        <option value="Office">Office / Corporate</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cust-address">Delivery Location / Address</label>
+                    <textarea id="cust-address" rows="3" required placeholder="Town, Estate, Building, or Hostel name..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method</label>
+                    <select id="payment-method" required>
+                        <option value="M-Pesa Express">M-Pesa Mobile Money (STK Push)</option>
+                        <option value="Cash on Delivery">Cash on Delivery (Pay upon arrival)</option>
+                        <option value="Debit/Credit Card">Debit / Credit Card</option>
+                    </select>
+                </div>
+                <div class="order-total-box">
+                    <p>Amount Payable: <strong>KES <span id="checkout-total">0</span></strong></p>
+                </div>
+                <button type="submit" class="primary-btn full-width">Confirm Order</button>
+            </form>
+        </section>
+
+        <!-- ORDER CONFIRMATION MODAL / VIEW -->
+        <section id="confirmation-view" class="view">
+            <div class="confirmation-box">
+                <div class="checkmark">&#10004;</div>
+                <h2>Order Placed Successfully!</h2>
+                <p id="confirmation-message"></p>
+                <button class="primary-btn" onclick="navigateTo('home')">Continue Shopping</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Elegant Home Decor Kenya. Designed for B2C Online Retail.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
