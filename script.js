@@ -31,7 +31,7 @@ const products = [
         name: "Artificial Pampas & Eucalyptus Bouquet",
         category: "Vases & Flowers",
         price: 1200,
-        image: "photo5.avif",
+        image: "photo5..avif",
         description: "Maintenance-free lifelike artificial stems that stay fresh all year round.",
         customOptions: ["Standard Bunch (6 Stems)", "Full Luxury Bunch (12 Stems)"]
     },
