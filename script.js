@@ -246,6 +246,15 @@ function handleOrderSubmit(event) {
         confirmationMessage.innerHTML = message;
     }
 
+    if (currentUser) {
+        currentUser.orders.push({
+            orderNumber: orderNumber,
+            total: total,
+            payment: payment,
+            date: new Date().toLocaleDateString()
+        });
+        updateAccountUI();
+    }
     cart = [];
     updateCartCount();
     document.getElementById("checkout-form").reset();
@@ -257,3 +266,117 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProducts(products);
     updateCartCount();
 });
+// Simulated database storage & active session state
+let userDatabase = [];
+let currentUser = null;
+
+// Simple cryptographic hash simulator
+function simulateSecureHash(password) {
+    let hash = 0;
+    for (let i = 0; i < password.length; i++) {
+        let char = password.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash |= 0;
+    }
+    return "sha256_hash_" + Math.abs(hash).toString(16) + "9f2b";
+}
+
+// Handle User Registration
+function handleRegister(event) {
+    event.preventDefault();
+    const name = document.getElementById("reg-name").value;
+    const email = document.getElementById("reg-email").value;
+    const rawPassword = document.getElementById("reg-password").value;
+
+    const existingUser = userDatabase.find(u => u.email === email);
+    if (existingUser) {
+        alert("An account with this email already exists!");
+        return;
+    }
+
+    const hashedPassword = simulateSecureHash(rawPassword);
+
+    userDatabase.push({
+        name: name,
+        email: email,
+        passwordHash: hashedPassword,
+        orders: []
+    });
+
+    alert("Account created for " + name + "! You can now log in.");
+    document.getElementById("register-form").reset();
+}
+
+// Handle Secure User Login & Switch to Profile View
+function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const rawPassword = document.getElementById("login-password").value;
+    const statusBox = document.getElementById("account-status");
+
+    const user = userDatabase.find(u => u.email === email);
+    if (!user) {
+        statusBox.style.color = "#d9534f";
+        statusBox.textContent = "Login failed: Email not found.";
+        return;
+    }
+
+    const hashedInput = simulateSecureHash(rawPassword);
+    if (hashedInput === user.passwordHash) {
+        currentUser = user;
+        statusBox.textContent = "";
+        document.getElementById("login-form").reset();
+        updateAccountUI();
+    } else {
+        statusBox.style.color = "#d9534f";
+        statusBox.textContent = "Login failed: Incorrect password.";
+    }
+}
+
+// Handle Log Out & Return to Login Forms
+function handleLogout() {
+    currentUser = null;
+    updateAccountUI();
+    alert("You have been securely logged out.");
+}
+
+// Toggle UI between Login/Register and Customer Profile
+function updateAccountUI() {
+    const authContainer = document.getElementById("auth-forms-container");
+    const profileDashboard = document.getElementById("profile-dashboard");
+    const navBtn = document.getElementById("nav-account-btn");
+
+    if (currentUser) {
+        // Hide forms, show profile
+        authContainer.classList.add("hidden");
+        profileDashboard.classList.remove("hidden");
+        navBtn.textContent = "Profile (" + currentUser.name.split(" ")[0] + ")";
+
+        // Populate profile details
+        document.getElementById("prof-name").textContent = currentUser.name;
+        document.getElementById("prof-email").textContent = currentUser.email;
+        document.getElementById("prof-hash").textContent = currentUser.passwordHash;
+
+        // Render user's order history
+        const ordersContainer = document.getElementById("prof-orders");
+        if (currentUser.orders.length === 0) {
+            ordersContainer.innerHTML = "<p>No orders placed yet. Browse our collection to place your first order!</p>";
+        } else {
+            let ordersHtml = "";
+            for (let i = 0; i < currentUser.orders.length; i++) {
+                let ord = currentUser.orders[i];
+                ordersHtml += '<div class="cart-item" style="margin-bottom: 0.6rem;">' +
+                                '<div><strong>Order #' + ord.orderNumber + '</strong> (' + ord.date + ')<br>' +
+                                '<small>Payment: ' + ord.payment + '</small></div>' +
+                                '<strong>KES ' + ord.total + '</strong>' +
+                              '</div>';
+            }
+            ordersContainer.innerHTML = ordersHtml;
+        }
+    } else {
+        // Show forms, hide profile
+        authContainer.classList.remove("hidden");
+        profileDashboard.classList.add("hidden");
+        navBtn.textContent = "Account / Login";
+    }
+}
