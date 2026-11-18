@@ -12,6 +12,7 @@
     <header class="navbar">
         <div class="logo" onclick="navigateTo('home')">Elegant Home Decor</div>
         <nav>
+            <button id="nav-account-btn" class="nav-btn" onclick="navigateTo('account')">Account / Login</button>
             <button class="nav-btn" onclick="navigateTo('home')">Home</button>
             <button class="nav-btn" onclick="navigateTo('products')">Products</button>
             <button class="nav-btn cart-btn" onclick="navigateTo('cart')">
@@ -23,6 +24,85 @@
     <!-- Main Content Area -->
     <main id="app-container">
 
+        <!-- 6. ACCOUNT / SECURITY VIEW -->
+        <section id="account-view" class="view">
+            
+            <!-- A. LOGIN & REGISTER FORMS (Shown when logged out) -->
+            <div id="auth-forms-container">
+                <h2>Customer Account & Security Portal</h2>
+                <p style="margin-bottom: 1.5rem; color: #666;">Manage your account credentials securely as required by our security policy.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Register Card -->
+                    <div class="checkout-form" style="max-width: 100%;">
+                        <h3>Create an Account</h3>
+                        <form id="register-form" onsubmit="handleRegister(event)" style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="reg-name">Full Name</label>
+                                <input type="text" id="reg-name" required placeholder="e.g., Christine Nyambura">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-email">Email Address</label>
+                                <input type="email" id="reg-email" required placeholder="e.g., christine@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password">Create Password (Min 8 chars)</label>
+                                <input type="password" id="reg-password" required minlength="8" placeholder="••••••••">
+                                <small style="color: #666;">Stored using simulated secure cryptographic hashing.</small>
+                            </div>
+                            <button type="submit" class="primary-btn full-width">Register Securely</button>
+                        </form>
+                    </div>
+
+                    <!-- Login Card -->
+                    <div class="checkout-form" style="max-width: 100%;">
+                        <h3>Customer Login</h3>
+                        <form id="login-form" onsubmit="handleLogin(event)" style="margin-top: 1rem;">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" required placeholder="e.g., christine@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" required placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="primary-btn full-width">Login</button>
+                        </form>
+                        <div id="account-status" style="margin-top: 1rem; font-weight: 600;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. CUSTOMER PROFILE DASHBOARD (Shown when logged in until Log Out) -->
+            <div id="profile-dashboard" class="checkout-form hidden" style="max-width: 700px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                    <h2>My Customer Profile</h2>
+                    <button class="remove-btn" onclick="handleLogout()">Log Out</button>
+                </div>
+
+                <div class="form-group">
+                    <p><strong>Account Holder:</strong> <span id="prof-name"></span></p>
+                </div>
+                <div class="form-group">
+                    <p><strong>Registered Email:</strong> <span id="prof-email"></span></p>
+                </div>
+                <div class="form-group">
+                    <p><strong>Account Status:</strong> <span style="color: var(--primary); font-weight: 600;">Active & Authenticated</span></p>
+                </div>
+                <div class="order-total-box">
+                    <p style="font-size: 0.9rem; color: #555;"><strong>Security Info:</strong> Your password is protected via cryptographic hashing (<code id="prof-hash"></code>) and is never stored in readable text.</p>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <h3>Recent Order History</h3>
+                    <div id="prof-orders" style="margin-top: 0.8rem; color: #666;">
+                        <p>No orders placed in this session yet.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
         <!-- 1. HOME VIEW -->
         <section id="home-view" class="view active">
             <div class="hero">
