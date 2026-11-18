@@ -327,6 +327,7 @@ function handleLogin(event) {
         statusBox.textContent = "";
         document.getElementById("login-form").reset();
         updateAccountUI();
+        navigateTo("home");
     } else {
         statusBox.style.color = "#d9534f";
         statusBox.textContent = "Login failed: Incorrect password.";
@@ -338,6 +339,7 @@ function handleLogout() {
     currentUser = null;
     updateAccountUI();
     alert("You have been securely logged out.");
+    navigateTo("home");
 }
 
 // Toggle UI between Login/Register and Customer Profile
